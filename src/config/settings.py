@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, Field
 from typing import Optional
 
 
@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     """
 
     # Data Storage
-    DATA_DIR: str = "./data"
+    DATA_DIR: str = Field(default="/home/site/wwwroot/data")
 
     # JWT
     SECRET_KEY: str
