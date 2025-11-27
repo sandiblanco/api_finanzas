@@ -11,6 +11,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
     Verifica si una contraseña en texto plano coincide con el hash.
+    Trunca la contraseña a 72 bytes para cumplir con el límite de bcrypt.
 
     Args:
         plain_password: Contraseña en texto plano
@@ -19,12 +20,15 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     Returns:
         bool: True si coinciden, False si no
     """
-    return pwd_context.verify(plain_password, hashed_password)
+    # Truncar a 72 bytes (límite de bcrypt)
+    password_bytes = plain_password.encode('utf-8')[:72]
+    return pwd_context.verify(password_bytes.decode('utf-8', errors='ignore'), hashed_password)
 
 
 def get_password_hash(password: str) -> str:
     """
     Genera el hash de una contraseña.
+    Trunca la contraseña a 72 bytes para cumplir con el límite de bcrypt.
 
     Args:
         password: Contraseña en texto plano
@@ -32,7 +36,9 @@ def get_password_hash(password: str) -> str:
     Returns:
         str: Contraseña hasheada
     """
-    return pwd_context.hash(password)
+    # Truncar a 72 bytes (límite de bcrypt)
+    password_bytes = password.encode('utf-8')[:72]
+    return pwd_context.hash(password_bytes.decode('utf-8', errors='ignore'))
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
