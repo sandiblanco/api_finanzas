@@ -55,26 +55,16 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     version="1.0.0",
     description="""
-    API REST para gestión de finanzas personales.
-    
-    ## Características principales:
-    
-    * **Autenticación JWT**: Sistema seguro de autenticación con tokens
-    * **Transacciones**: Registro y gestión de ingresos y gastos
-    * **Tarjetas**: Administración de tarjetas y cuentas bancarias
-    * **Sobres de Ahorro**: Objetivos de ahorro con seguimiento de progreso
-    * **Recordatorios de Pago**: Alertas para pagos pendientes
-    * **Dashboard**: Resumen completo de la situación financiera
-    
-    ## Autenticación:
-    
-    La mayoría de los endpoints requieren autenticación. Para usar la API:
-    
-    1. Registra un usuario en `/api/v1/auth/register`
-    2. Obtén un token en `/api/v1/auth/login`
-    3. Usa el token en el header `Authorization: Bearer {token}`
-    
-    También puedes usar el botón "Authorize" en la parte superior derecha de esta documentación.
+# API de Finanzas Personales
+
+**Proyecto 2 - Diseño de Software**  
+**Tecnológico de Costa Rica - Campus San Carlos**
+
+**Desarrollado por:**
+- Sebastián Josué Sandí Blanco
+- Mario Andrés Rojas Varela
+
+---
     """,
     contact={
         "name": "Soporte API",
