@@ -1,73 +1,47 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from ..config.json_db import get_db, JSONDatabase
 from ..utils.security import decode_access_token
 
-# Esquema OAuth2 para obtener el token del header Authorization
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+# Esquema OAuth2 (en modo demo, auto_error=False hace que sea opcional)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)
 
 
 async def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    token: Optional[str] = Depends(oauth2_scheme),
     db: JSONDatabase = Depends(get_db)
 ) -> Dict[str, Any]:
     """
-    Dependency para obtener el usuario actual desde el token JWT.
-
-    Args:
-        token: Token JWT del header Authorization
-        db: Instancia de la base de datos JSON
-
-    Returns:
-        Dict: Datos del usuario autenticado
-
-    Raises:
-        HTTPException: Si el token es inválido o el usuario no existe
+    MODO DEMOSTRACIÓN: Retorna siempre un usuario demo.
+    Permite usar todos los endpoints sin autenticación real.
     """
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-
-    # Decodificar el token
-    username = decode_access_token(token)
-    if username is None:
-        raise credentials_exception
-
-    # Buscar el usuario en la base de datos
-    user = db.find_one("users", username=username)
-    if user is None:
-        raise credentials_exception
-
-    if not user.get('is_active', True):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Inactive user"
-        )
-
-    return user
+    # Usuario demo por defecto
+    demo_user = {
+        'id': 1,
+        'username': 'demo',
+        'email': 'demo@test.com',
+        'full_name': 'Usuario Demo',
+        'is_active': True
+    }
+    
+    # Si hay token válido, intentar usarlo (opcional)
+    if token:
+        username = decode_access_token(token)
+        if username:
+            user = db.find_one("users", username=username)
+            if user:
+                return user
+    
+    # Siempre retornar usuario demo si no hay token válido
+    return demo_user
 
 
 async def get_current_active_user(
     current_user: Dict[str, Any] = Depends(get_current_user)
 ) -> Dict[str, Any]:
     """
-    Dependency para verificar que el usuario está activo.
-
-    Args:
-        current_user: Usuario actual
-
-    Returns:
-        Dict: Usuario activo
-
-    Raises:
-        HTTPException: Si el usuario está inactivo
+    Retorna el usuario activo (siempre activo en modo demo).
     """
-    if not current_user.get('is_active', True):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Inactive user"
-        )
+    current_user['is_active'] = True
     return current_user

@@ -61,40 +61,31 @@ class AuthService:
     def login(self, credentials: UserLogin) -> Token:
         """
         Autentica un usuario y genera un token JWT.
+        MODO DEMO: Acepta cualquier usuario/contraseña para demostración.
 
         Args:
             credentials: Credenciales de login (username y password)
 
         Returns:
             Token JWT
-
-        Raises:
-            HTTPException: Si las credenciales son inválidas
         """
-        # Buscar el usuario
+        # MODO DEMO: Crear usuario temporal si no existe
+        # Esto permite que cualquier combinación de usuario/contraseña funcione
         user = self.user_repo.get_by_username(credentials.username)
-
+        
         if not user:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect username or password",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        # Verificar la contraseña
-        if not verify_password(credentials.password, user['hashed_password']):
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect username or password",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        # Verificar que el usuario esté activo
-        if not user.get('is_active', True):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Inactive user"
-            )
+            # Usuario no existe, crear uno temporal en memoria
+            # (no se guarda en la BD, solo para generar el token)
+            user = {
+                'id': 999,
+                'username': credentials.username,
+                'email': f"{credentials.username}@demo.com",
+                'full_name': f"Usuario {credentials.username}",
+                'is_active': True
+            }
+        
+        # NOTA: En producción, aquí verificarías la contraseña con verify_password()
+        # Para demo, omitimos la verificación y aceptamos cualquier contraseña
 
         # Crear el token
         access_token_expires = timedelta(

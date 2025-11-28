@@ -1,1 +1,12 @@
-[{"id":1,"email":"demo@test.com","username":"demo","full_name":"Usuario Demo","hashed_password":"$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5ND0pmdWO1Zb.","is_active":true,"created_at":"2025-11-27T00:00:00","updated_at":"2025-11-27T00:00:00"}]
+[
+  {
+    "id": 1,
+    "email": "demo@test.com",
+    "username": "demo",
+    "full_name": "Usuario Demo",
+    "hashed_password": "$2b$12$zMhW/QPU9oKTiKhIDecigepICTagGNf6DsAnEiWzwKrL8o7iSn0qi",
+    "is_active": true,
+    "created_at": "2025-11-27T00:00:00",
+    "updated_at": "2025-11-27T00:00:00"
+  }
+]
