@@ -39,8 +39,8 @@ wheels/
 Thumbs.db
 
 # Data (JSON files)
-#data/
-#*.json
+data/
+*.json
 
 # Logs
 *.log
