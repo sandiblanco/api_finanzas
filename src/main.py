@@ -65,18 +65,7 @@ app = FastAPI(
 - Mario Andrés Rojas Varela
 
 ---
-    """,
-    contact={
-        "name": "Soporte API",
-        "email": "soporte@financeapi.com",
-    },
-    license_info={
-        "name": "MIT",
-    },
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json",
-    lifespan=lifespan
+    """
 )
 
 # Configurar CORS
