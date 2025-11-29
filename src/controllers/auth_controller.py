@@ -16,20 +16,20 @@ def get_auth_service(db: JSONDatabase = Depends(get_db)) -> AuthService:
     return AuthService(user_repo)
 
 
-# @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-# async def register(
-#     user_data: UserCreate,
-#     auth_service: AuthService = Depends(get_auth_service)
-# ):
-#     """
-#     Registra un nuevo usuario.
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def register(
+    user_data: UserCreate,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Registra un nuevo usuario.
     
-#     - **email**: Email del usuario (único)
-#     - **username**: Nombre de usuario (único)
-#     - **password**: Contraseña (mínimo 6 caracteres)
-#     - **full_name**: Nombre completo (opcional)
-#     """
-#     return auth_service.register(user_data)
+    - **email**: Email del usuario (único)
+    - **username**: Nombre de usuario (único)
+    - **password**: Contraseña (mínimo 6 caracteres)
+    - **full_name**: Nombre completo (opcional)
+    """
+    return auth_service.register(user_data)
 
 
 @router.post("/login", response_model=Token)
