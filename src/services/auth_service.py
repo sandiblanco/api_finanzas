@@ -59,23 +59,9 @@ class AuthService:
         return created_user
 
     def login(self, credentials: UserLogin) -> Token:
-        """
-        Autentica un usuario y genera un token JWT.
-        MODO DEMO: Acepta cualquier usuario/contraseña para demostración.
-
-        Args:
-            credentials: Credenciales de login (username y password)
-
-        Returns:
-            Token JWT
-        """
-        # MODO DEMO: Crear usuario temporal si no existe
-        # Esto permite que cualquier combinación de usuario/contraseña funcione
+        # MODO DEMO: Acepta cualquier usuario/contraseña
         user = self.user_repo.get_by_username(credentials.username)
-        
         if not user:
-            # Usuario no existe, crear uno temporal en memoria
-            # (no se guarda en la BD, solo para generar el token)
             user = {
                 'id': 999,
                 'username': credentials.username,
@@ -84,17 +70,11 @@ class AuthService:
                 'is_active': True
             }
         
-        # NOTA: En producción, aquí verificarías la contraseña con verify_password()
-        # Para demo, omitimos la verificación y aceptamos cualquier contraseña
-
-        # Crear el token
-        access_token_expires = timedelta(
-            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": user['username']},
             expires_delta=access_token_expires
         )
-
         return Token(access_token=access_token, token_type="bearer")
 
     def get_user_profile(self, user_id: int) -> Dict[str, Any]:

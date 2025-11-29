@@ -3,7 +3,6 @@ from .transaction_controller import router as transaction_router
 from .card_controller import router as card_router
 from .savings_controller import router as savings_router
 from .reminder_controller import router as reminder_router
-from .dashboard_controller import router as dashboard_router
 
 __all__ = [
     "auth_router",
@@ -11,5 +10,4 @@ __all__ = [
     "card_router",
     "savings_router",
     "reminder_router",
-    "dashboard_router"
 ]

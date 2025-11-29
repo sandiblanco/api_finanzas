@@ -3,7 +3,6 @@ from .transaction_dto import TransactionCreate, TransactionUpdate, TransactionRe
 from .card_dto import CardCreate, CardUpdate, CardResponse, CardListResponse
 from .savings_dto import SavingsEnvelopeCreate, SavingsEnvelopeUpdate, SavingsEnvelopeResponse, SavingsEnvelopeListResponse
 from .reminder_dto import PaymentReminderCreate, PaymentReminderUpdate, PaymentReminderResponse, PaymentReminderListResponse
-from .dashboard_dto import DashboardSummary, CategorySummary, MonthlyComparison
 
 __all__ = [
     "UserCreate", "UserLogin", "UserResponse", "Token", "TokenData",

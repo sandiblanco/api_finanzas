@@ -11,8 +11,7 @@ from .controllers import (
     transaction_router,
     card_router,
     savings_router,
-    reminder_router,
-    dashboard_router
+    reminder_router
 )
 from .middleware.error_handler import (
     validation_exception_handler,
@@ -89,7 +88,6 @@ app.include_router(transaction_router, prefix=API_PREFIX)
 app.include_router(card_router, prefix=API_PREFIX)
 app.include_router(savings_router, prefix=API_PREFIX)
 app.include_router(reminder_router, prefix=API_PREFIX)
-app.include_router(dashboard_router, prefix=API_PREFIX)
 
 
 @app.get("/")
